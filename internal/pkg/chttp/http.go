@@ -1,14 +1,14 @@
-package internal
+package chttp
 
 import (
-"bytes"
+	"bytes"
 	"crypto/tls"
 	"encoding/json"
-"encoding/xml"
-"fmt"
-"io/ioutil"
-"net/http"
-"time"
+	"encoding/xml"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"time"
 )
 
 type HttpClient struct {

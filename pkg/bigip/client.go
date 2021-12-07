@@ -2,7 +2,8 @@ package bigip
 
 import (
 	"fmt"
-	"oss.navercorp.com/seunghwan.na/f5g/pkg/internal"
+	"oss.navercorp.com/seunghwan.na/f5g/internal/pkg/chttp"
+	"strings"
 	"time"
 )
 
@@ -36,12 +37,12 @@ func CommonId(name string) string {
 	return fmt.Sprintf("~Common~%s", name)
 }
 
-func (c *client)buildUrl(path ...string) string {
+func (c *client) buildUrl(path ...string) string {
 	assembled := fmt.Sprintf("%s://%s", c.scheme, c.domain)
 	i := 0
 	for _, v := range path {
 		assembled += v
-		if i < len(path) - 1 {
+		if i < len(path)-1 {
 			assembled += "/"
 		}
 		i++
@@ -62,11 +63,11 @@ func (c *client) DisableTLSVerify() *client {
 }
 
 func (c *client) iControlRequest(method, url string, body []byte, r interface{}) error {
-	httpClient := internal.NewHttpClient()
+	httpClient := chttp.NewHttpClient()
 	if c.disableTlsVerify {
 		httpClient.DisableTLSVerify()
 	}
-	
+
 	err := httpClient.SetRequest(method, url, body)
 	if err != nil {
 		return fmt.Errorf("iControlRequest.SetRequest fail: %s", err)
@@ -75,16 +76,20 @@ func (c *client) iControlRequest(method, url string, body []byte, r interface{})
 	httpClient.
 		SetTimeout(c.timeout).
 		SetBasicAuth(c.a.user, c.a.passwd)
-	
+
 	err = httpClient.Do()
 	if err != nil {
 		return fmt.Errorf("iControlRequest.Do fail: %s", err)
 	}
-	
+
 	err = httpClient.Unmarshal(r)
 	if err != nil {
 		return fmt.Errorf("iControlRequest.Unmarshal fail: %s", err)
 	}
 
 	return nil
+}
+
+func urlEncoding(url string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(url, blank, "%20"), slash, tilde)
 }

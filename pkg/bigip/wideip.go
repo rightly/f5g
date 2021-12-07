@@ -1,9 +1,8 @@
 package bigip
 
 type WideIpList struct {
-	Kind     string   `json:"kind"`
-	SelfLink string   `json:"selfLink"`
-	Items    []WideIp `json:"items"`
+	Kind  string   `json:"kind"`
+	Items []WideIp `json:"items"`
 }
 
 type WideIp struct {
@@ -12,7 +11,6 @@ type WideIp struct {
 	Partition            string `json:"partition"`
 	FullPath             string `json:"fullPath"`
 	Generation           int    `json:"generation"`
-	SelfLink             string `json:"selfLink"`
 	Enabled              bool   `json:"enabled"`
 	FailureRcode         string `json:"failureRcode"`
 	FailureRcodeResponse string `json:"failureRcodeResponse"`
@@ -44,12 +42,10 @@ type WideIp struct {
 	} `json:"poolsCname"`
 }
 
-func (c *client) WideIpList(RType string) (*WideIpList, error) {
-	url := c.buildUrl(basePath, WideIpResource, RType)
+func (c *client) WideIpList(ResourceType string) (*WideIpList, error) {
+	url := c.buildUrl(basePath, WideIpResource, ResourceType)
 	resp := &WideIpList{
-		Kind:     "",
-		SelfLink: "",
-		Items:    make([]WideIp, 0),
+		Items: make([]WideIp, 0),
 	}
 	err := c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
@@ -59,8 +55,8 @@ func (c *client) WideIpList(RType string) (*WideIpList, error) {
 	return resp, nil
 }
 
-func (c *client) WideIp(id, RType string) (*WideIp, error) {
-	url := c.buildUrl(basePath, WideIpResource, RType, CommonId(id))
+func (c *client) WideIp(id, ResourceType string) (*WideIp, error) {
+	url := c.buildUrl(basePath, WideIpResource, ResourceType, CommonId(id))
 	resp := &WideIp{}
 	err := c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
@@ -70,8 +66,8 @@ func (c *client) WideIp(id, RType string) (*WideIp, error) {
 	return resp, nil
 }
 
-func (c *client) WideIpWithCustomId(id, RType string) (*WideIp, error) {
-	url := c.buildUrl(basePath, WideIpResource, RType, id)
+func (c *client) WideIpWithCustomId(id, ResourceType string) (*WideIp, error) {
+	url := c.buildUrl(basePath, WideIpResource, ResourceType, id)
 	resp := &WideIp{}
 	err := c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {

@@ -23,6 +23,8 @@
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
 
+main.go
+
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
