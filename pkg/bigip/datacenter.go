@@ -15,12 +15,12 @@ type Datacenter struct {
 	Location   string `json:"location,omitempty"`
 }
 
-func (c *client) DatacenterList() (*DatacenterList, error) {
-	url := c.buildUrl(basePath, DatacenterResource)
+func (g *GTM) DatacenterList() (*DatacenterList, error) {
+	url := g.c.buildUrl(basePath, DatacenterResource)
 	resp := &DatacenterList{
 		Items: make([]Datacenter, 0),
 	}
-	err := c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -28,10 +28,10 @@ func (c *client) DatacenterList() (*DatacenterList, error) {
 	return resp, nil
 }
 
-func (c *client) Datacenter(id string) (*Datacenter, error) {
-	url := c.buildUrl(basePath, DatacenterResource, CommonId(id))
+func (g *GTM) Datacenter(id string) (*Datacenter, error) {
+	url := g.c.buildUrl(basePath, DatacenterResource, CommonId(id))
 	resp := &Datacenter{}
-	err := c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -39,10 +39,10 @@ func (c *client) Datacenter(id string) (*Datacenter, error) {
 	return resp, nil
 }
 
-func (c *client) DatacenterWithCustomId(id string) (*Datacenter, error) {
-	url := c.buildUrl(basePath, DatacenterResource, id)
+func (g *GTM) DatacenterWithCustomId(id string) (*Datacenter, error) {
+	url := g.c.buildUrl(basePath, DatacenterResource, id)
 	resp := &Datacenter{}
-	err := c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}

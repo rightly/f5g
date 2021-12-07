@@ -6,6 +6,7 @@ const (
 	tilde = "~"
 )
 
+// GTM
 const (
 	basePath = "/mgmt/tm/gtm"
 
@@ -35,10 +36,14 @@ const (
 	RatioMode              = "ratio"
 	TopologyMode           = "topology"
 
+	// Pool FB Mode
+	ReturnToDNS = "return-to-dns"
+
 	// API Method
-	HTTPGet  = "GET"
-	HTTPPost = "POST"
-	HTTPPut  = "PUT"
+	HTTPGet    = "GET"
+	HTTPPost   = "POST"
+	HTTPPut    = "PUT"
+	HTTPDelete = "DELETE"
 
 	// Server Product
 	ServerGenericHost = "generic-host"

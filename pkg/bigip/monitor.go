@@ -23,12 +23,12 @@ type Monitor struct {
 	Transparent        string `json:"transparent"`
 }
 
-func (c *client) MonitorList(MonitorType string) (*MonitorList, error) {
-	url := c.buildUrl(basePath, MonitorResource, MonitorType)
+func (g *GTM) MonitorList(MonitorType string) (*MonitorList, error) {
+	url := g.c.buildUrl(basePath, MonitorResource, MonitorType)
 	resp := &MonitorList{
 		Items: make([]Monitor, 0),
 	}
-	err := c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -36,10 +36,10 @@ func (c *client) MonitorList(MonitorType string) (*MonitorList, error) {
 	return resp, nil
 }
 
-func (c *client) Monitor(id, MonitorType string) (*Monitor, error) {
-	url := c.buildUrl(basePath, MonitorResource, MonitorType, CommonId(id))
+func (g *GTM) Monitor(id, MonitorType string) (*Monitor, error) {
+	url := g.c.buildUrl(basePath, MonitorResource, MonitorType, CommonId(id))
 	resp := &Monitor{}
-	err := c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -47,10 +47,10 @@ func (c *client) Monitor(id, MonitorType string) (*Monitor, error) {
 	return resp, nil
 }
 
-func (c *client) MonitorWithCustomId(id, MonitorType string) (*Monitor, error) {
-	url := c.buildUrl(basePath, MonitorResource, MonitorType, id)
+func (g *GTM) MonitorWithCustomId(id, MonitorType string) (*Monitor, error) {
+	url := g.c.buildUrl(basePath, MonitorResource, MonitorType, id)
 	resp := &Monitor{}
-	err := c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}

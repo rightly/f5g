@@ -42,12 +42,12 @@ type WideIp struct {
 	} `json:"poolsCname"`
 }
 
-func (c *client) WideIpList(ResourceType string) (*WideIpList, error) {
-	url := c.buildUrl(basePath, WideIpResource, ResourceType)
+func (g *GTM) WideIpList(ResourceType string) (*WideIpList, error) {
+	url := g.c.buildUrl(basePath, WideIpResource, ResourceType)
 	resp := &WideIpList{
 		Items: make([]WideIp, 0),
 	}
-	err := c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -55,10 +55,10 @@ func (c *client) WideIpList(ResourceType string) (*WideIpList, error) {
 	return resp, nil
 }
 
-func (c *client) WideIp(id, ResourceType string) (*WideIp, error) {
-	url := c.buildUrl(basePath, WideIpResource, ResourceType, CommonId(id))
+func (g *GTM) WideIp(id, ResourceType string) (*WideIp, error) {
+	url := g.c.buildUrl(basePath, WideIpResource, ResourceType, CommonId(id))
 	resp := &WideIp{}
-	err := c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -66,10 +66,10 @@ func (c *client) WideIp(id, ResourceType string) (*WideIp, error) {
 	return resp, nil
 }
 
-func (c *client) WideIpWithCustomId(id, ResourceType string) (*WideIp, error) {
-	url := c.buildUrl(basePath, WideIpResource, ResourceType, id)
+func (g *GTM) WideIpWithCustomId(id, ResourceType string) (*WideIp, error) {
+	url := g.c.buildUrl(basePath, WideIpResource, ResourceType, id)
 	resp := &WideIp{}
-	err := c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}

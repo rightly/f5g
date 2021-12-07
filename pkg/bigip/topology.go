@@ -1,27 +1,26 @@
 package bigip
 
 type TopologyRecordList struct {
-	Kind     string           `json:"kind"`
-	SelfLink string           `json:"selfLink"`
-	Items    []TopologyRecord `json:"items"`
+	Kind  string           `json:"kind,omitempty"`
+	Items []TopologyRecord `json:"items,omitempty"`
 }
 
 type TopologyRecord struct {
-	Kind       string `json:"kind"`
-	Name       string `json:"name"`
-	FullPath   string `json:"fullPath"`
-	Generation int    `json:"generation"`
-	SelfLink   string `json:"selfLink"`
-	Order      int    `json:"order"`
-	Score      int    `json:"score"`
+	Kind       string `json:"kind,omitempty"`
+	Name       string `json:"name,omitempty"`
+	FullPath   string `json:"fullPath,omitempty"`
+	Generation int    `json:"generation,omitempty"`
+	SelfLink   string `json:"selfLink,omitempty"`
+	Order      int    `json:"order,omitempty"`
+	Score      int    `json:"score,omitempty"`
 }
 
-func (c *client) TopologyRecordList() (*TopologyRecordList, error) {
-	url := c.buildUrl(basePath, TopologyResource)
+func (g *GTM) TopologyRecordList() (*TopologyRecordList, error) {
+	url := g.c.buildUrl(basePath, TopologyResource)
 	resp := &TopologyRecordList{
 		Items: make([]TopologyRecord, 0),
 	}
-	err := c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -29,10 +28,10 @@ func (c *client) TopologyRecordList() (*TopologyRecordList, error) {
 	return resp, nil
 }
 
-func (c *client) TopologyRecord(id string) (*TopologyRecord, error) {
-	url := c.buildUrl(basePath, TopologyResource, urlEncoding(id))
+func (g *GTM) TopologyRecord(id string) (*TopologyRecord, error) {
+	url := g.c.buildUrl(basePath, TopologyResource, IdEncoding(id))
 	resp := &TopologyRecord{}
-	err := c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}

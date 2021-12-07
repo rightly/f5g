@@ -1,6 +1,7 @@
 package bigip
 
 import (
+	"encoding/json"
 	"fmt"
 	"oss.navercorp.com/seunghwan.na/f5g/internal/pkg/chttp"
 	"strings"
@@ -18,6 +19,27 @@ type client struct {
 type authentication struct {
 	user   string
 	passwd string
+}
+
+type Error struct {
+	Code       int           `json:"code"`
+	Message    string        `json:"message"`
+	ErrorStack []interface{} `json:"errorStack"`
+	APIError   int           `json:"apiError"`
+}
+
+func (e *Error) Error() string {
+	b, _ := json.Marshal(e)
+	return string(b)
+}
+
+func newError(code int, message string) *Error {
+	return &Error{
+		Code:       code,
+		Message:    message,
+		ErrorStack: nil,
+		APIError:   0,
+	}
 }
 
 func New(scheme, domain, user, password string) *client {
@@ -70,7 +92,7 @@ func (c *client) iControlRequest(method, url string, body []byte, r interface{})
 
 	err := httpClient.SetRequest(method, url, body)
 	if err != nil {
-		return fmt.Errorf("iControlRequest.SetRequest fail: %s", err)
+		return newError(500, fmt.Errorf("iControlRequest.SetRequest fail: %s", err).Error())
 	}
 
 	httpClient.
@@ -79,17 +101,21 @@ func (c *client) iControlRequest(method, url string, body []byte, r interface{})
 
 	err = httpClient.Do()
 	if err != nil {
-		return fmt.Errorf("iControlRequest.Do fail: %s", err)
+		errResp := newError(0, "")
+		_ = httpClient.UnmarshalJSON(errResp)
+		errResp.Message = "iControlRequest.Do fail: " + errResp.Message
+		return errResp
 	}
-
-	err = httpClient.Unmarshal(r)
-	if err != nil {
-		return fmt.Errorf("iControlRequest.Unmarshal fail: %s", err)
+	if len(httpClient.Body) > 0 {
+		err = httpClient.UnmarshalJSON(r)
+		if err != nil {
+			return newError(500, fmt.Errorf("iControlRequest.Unmarshal fail: %s", err).Error())
+		}
 	}
 
 	return nil
 }
 
-func urlEncoding(url string) string {
-	return strings.ReplaceAll(strings.ReplaceAll(url, blank, "%20"), slash, tilde)
+func IdEncoding(id string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(id, blank, "%20"), slash, tilde)
 }

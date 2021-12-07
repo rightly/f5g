@@ -17,12 +17,12 @@ type Region struct {
 	} `json:"regionMembers"`
 }
 
-func (c *client) RegionList() (*RegionList, error) {
-	url := c.buildUrl(basePath, RegionResource)
+func (g *GTM) RegionList() (*RegionList, error) {
+	url := g.c.buildUrl(basePath, RegionResource)
 	resp := &RegionList{
 		Items: make([]Region, 0),
 	}
-	err := c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -30,10 +30,10 @@ func (c *client) RegionList() (*RegionList, error) {
 	return resp, nil
 }
 
-func (c *client) Region(id string) (*Region, error) {
-	url := c.buildUrl(basePath, RegionResource, CommonId(id))
+func (g *GTM) Region(id string) (*Region, error) {
+	url := g.c.buildUrl(basePath, RegionResource, CommonId(id))
 	resp := &Region{}
-	err := c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -41,10 +41,10 @@ func (c *client) Region(id string) (*Region, error) {
 	return resp, nil
 }
 
-func (c *client) RegionWithCustomId(id string) (*Region, error) {
-	url := c.buildUrl(basePath, RegionResource, id)
+func (g *GTM) RegionWithCustomId(id string) (*Region, error) {
+	url := g.c.buildUrl(basePath, RegionResource, id)
 	resp := &Region{}
-	err := c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
