@@ -12,71 +12,71 @@ type PoolList struct {
 }
 
 type Pool struct {
-	Kind                     string `json:"kind"`
+	Kind                     string `json:"kind,omitempty"`
 	Name                     string `json:"name"`
 	Partition                string `json:"partition"`
-	FullPath                 string `json:"fullPath"`
-	Generation               int    `json:"generation"`
-	SelfLink                 string `json:"selfLink"`
-	AlternateMode            string `json:"alternateMode"`
-	DynamicRatio             string `json:"dynamicRatio"`
-	Enabled                  bool   `json:"enabled"`
-	FallbackMode             string `json:"fallbackMode"`
-	FallbackIp               string `json:"fallbackIp"`
-	LoadBalancingMode        string `json:"loadBalancingMode"`
-	ManualResume             string `json:"manualResume"`
-	MaxAnswersReturned       int    `json:"maxAnswersReturned"`
-	QosHitRatio              int    `json:"qosHitRatio"`
-	QosHops                  int    `json:"qosHops"`
-	QosKilobytesSecond       int    `json:"qosKilobytesSecond"`
-	QosLcs                   int    `json:"qosLcs"`
-	QosPacketRate            int    `json:"qosPacketRate"`
-	QosRtt                   int    `json:"qosRtt"`
-	QosTopology              int    `json:"qosTopology"`
-	QosVsCapacity            int    `json:"qosVsCapacity"`
-	QosVsScore               int    `json:"qosVsScore"`
-	TTL                      int    `json:"ttl"`
-	VerifyMemberAvailability string `json:"verifyMemberAvailability"`
+	FullPath                 string `json:"fullPath,omitempty"`
+	Generation               int    `json:"generation,omitempty"`
+	SelfLink                 string `json:"selfLink,omitempty"`
+	AlternateMode            string `json:"alternateMode,omitempty"`
+	DynamicRatio             string `json:"dynamicRatio,omitempty"`
+	Enabled                  bool   `json:"enabled,omitempty"`
+	FallbackMode             string `json:"fallbackMode,omitempty"`
+	FallbackIp               string `json:"fallbackIp,omitempty"`
+	LoadBalancingMode        string `json:"loadBalancingMode,omitempty"`
+	ManualResume             string `json:"manualResume,omitempty"`
+	MaxAnswersReturned       int    `json:"maxAnswersReturned,omitempty"`
+	QosHitRatio              int    `json:"qosHitRatio,omitempty"`
+	QosHops                  int    `json:"qosHops,omitempty"`
+	QosKilobytesSecond       int    `json:"qosKilobytesSecond,omitempty"`
+	QosLcs                   int    `json:"qosLcs,omitempty"`
+	QosPacketRate            int    `json:"qosPacketRate,omitempty"`
+	QosRtt                   int    `json:"qosRtt,omitempty"`
+	QosTopology              int    `json:"qosTopology,omitempty"`
+	QosVsCapacity            int    `json:"qosVsCapacity,omitempty"`
+	QosVsScore               int    `json:"qosVsScore,omitempty"`
+	TTL                      int    `json:"ttl,omitempty"`
+	VerifyMemberAvailability string `json:"verifyMemberAvailability,omitempty"`
 	MembersReference         struct {
-		Link            string `json:"link"`
-		IsSubcollection bool   `json:"isSubcollection"`
-	} `json:"membersReference"`
+		Link            string `json:"link,omitempty"`
+		IsSubcollection bool   `json:"isSubcollection,omitempty"`
+	} `json:"membersReference,omitempty"`
 }
 
 type PoolMemberList struct {
-	Kind     string       `json:"kind"`
-	SelfLink string       `json:"selfLink"`
-	Items    []PoolMember `json:"items"`
+	Kind     string       `json:"kind,omitempty"`
+	SelfLink string       `json:"selfLink,omitempty"`
+	Items    []PoolMember `json:"items,omitempty"`
 }
 
 type PoolMember struct {
-	Kind                      string `json:"kind"`
+	Kind                      string `json:"kind,omitempty"`
 	Name                      string `json:"name"`
 	Partition                 string `json:"partition"`
-	FullPath                  string `json:"fullPath"`
-	Generation                int    `json:"generation"`
-	SelfLink                  string `json:"selfLink"`
-	Enabled                   bool   `json:"enabled"`
-	StaticTarget              string `json:"staticTarget"`
-	LimitMaxBps               int    `json:"limitMaxBps"`
-	LimitMaxBpsStatus         string `json:"limitMaxBpsStatus"`
-	LimitMaxConnections       int    `json:"limitMaxConnections"`
-	LimitMaxConnectionsStatus string `json:"limitMaxConnectionsStatus"`
-	LimitMaxPps               int    `json:"limitMaxPps"`
-	LimitMaxPpsStatus         string `json:"limitMaxPpsStatus"`
-	MemberOrder               int    `json:"memberOrder"`
-	Monitor                   string `json:"monitor"`
-	Ratio                     int    `json:"ratio"`
+	FullPath                  string `json:"fullPath,omitempty"`
+	Generation                int    `json:"generation,omitempty"`
+	SelfLink                  string `json:"selfLink,omitempty"`
+	Enabled                   bool   `json:"enabled,omitempty"`
+	StaticTarget              string `json:"staticTarget,omitempty"`
+	LimitMaxBps               int    `json:"limitMaxBps,omitempty"`
+	LimitMaxBpsStatus         string `json:"limitMaxBpsStatus,omitempty"`
+	LimitMaxConnections       int    `json:"limitMaxConnections,omitempty"`
+	LimitMaxConnectionsStatus string `json:"limitMaxConnectionsStatus,omitempty"`
+	LimitMaxPps               int    `json:"limitMaxPps,omitempty"`
+	LimitMaxPpsStatus         string `json:"limitMaxPpsStatus,omitempty"`
+	MemberOrder               int    `json:"memberOrder,omitempty"`
+	Monitor                   string `json:"monitor,omitempty"`
+	Ratio                     int    `json:"ratio,omitempty"`
 }
 
 /* GET Resource */
 
 func (g *GTM) PoolList(ResourceType string) (*PoolList, error) {
-	url := g.c.buildUrl(basePath, PoolResource, ResourceType)
+	url := g.c.buildUrl(basePath, poolResource, ResourceType)
 	resp := &PoolList{
 		Items: make([]Pool, 0),
 	}
-	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(httpGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -85,9 +85,9 @@ func (g *GTM) PoolList(ResourceType string) (*PoolList, error) {
 }
 
 func (g *GTM) Pool(id, ResourceType string) (*Pool, error) {
-	url := g.c.buildUrl(basePath, PoolResource, ResourceType, CommonId(id))
+	url := g.c.buildUrl(basePath, poolResource, ResourceType, CommonId(id))
 	resp := &Pool{}
-	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(httpGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -96,9 +96,9 @@ func (g *GTM) Pool(id, ResourceType string) (*Pool, error) {
 }
 
 func (g *GTM) PoolWithCustomId(id, ResourceType string) (*Pool, error) {
-	url := g.c.buildUrl(basePath, PoolResource, ResourceType, id)
+	url := g.c.buildUrl(basePath, poolResource, ResourceType, id)
 	resp := &Pool{}
-	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(httpGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -107,11 +107,11 @@ func (g *GTM) PoolWithCustomId(id, ResourceType string) (*Pool, error) {
 }
 
 func (g *GTM) PoolMemberList(id, ResourceType string) (*PoolMemberList, error) {
-	url := g.c.buildUrl(basePath, PoolResource, ResourceType, CommonId(id), MemberResource)
+	url := g.c.buildUrl(basePath, poolResource, ResourceType, CommonId(id), memberResource)
 	resp := &PoolMemberList{
 		Items: make([]PoolMember, 0),
 	}
-	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(httpGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -120,11 +120,11 @@ func (g *GTM) PoolMemberList(id, ResourceType string) (*PoolMemberList, error) {
 }
 
 func (g *GTM) PoolMemberListWithCustomId(id, ResourceType string) (*PoolMemberList, error) {
-	url := g.c.buildUrl(basePath, PoolResource, ResourceType, id, MemberResource)
+	url := g.c.buildUrl(basePath, poolResource, ResourceType, id, memberResource)
 	resp := &PoolMemberList{
 		Items: make([]PoolMember, 0),
 	}
-	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(httpGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -206,7 +206,7 @@ func (r *Pool) Verify() error {
 }
 
 func (g *GTM) CreatePool(poolConfig *Pool, resourceType string) (*Pool, error) {
-	url := g.c.buildUrl(basePath, PoolResource, resourceType)
+	url := g.c.buildUrl(basePath, poolResource, resourceType)
 	if err := poolConfig.Verify(); err != nil {
 		return nil, newError(400, "pool value verify fail: "+err.Error())
 	}
@@ -216,7 +216,7 @@ func (g *GTM) CreatePool(poolConfig *Pool, resourceType string) (*Pool, error) {
 	if err != nil {
 		return nil, newError(500, "CreatePool.Marshal fail: "+err.Error())
 	}
-	err = g.c.iControlRequest(HTTPPost, url, body, resp)
+	err = g.c.iControlRequest(httpPost, url, body, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -225,15 +225,19 @@ func (g *GTM) CreatePool(poolConfig *Pool, resourceType string) (*Pool, error) {
 }
 
 func (g *GTM) DeletePool(id, resourceType string) (*Pool, error) {
-	url := g.c.buildUrl(basePath, PoolResource, resourceType, CommonId(id))
+	url := g.c.buildUrl(basePath, poolResource, resourceType, CommonId(id))
 
 	resp := &Pool{}
-	err := g.c.iControlRequest(HTTPDelete, url, nil, resp)
+	err := g.c.iControlRequest(httpDelete, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
 
 	return resp, nil
+}
+
+func NewPoolMemberConfig() *PoolMember {
+	return new(PoolMember)
 }
 
 func (r *PoolMember) SetName(name string) *PoolMember {
@@ -269,8 +273,8 @@ func (r *PoolMember) Verify() error {
 	return nil
 }
 
-func (g *GTM) AddPoolMember(memberConfig *PoolMember, id, resourceType string) (*PoolMember, error) {
-	url := g.c.buildUrl(basePath, PoolResource, resourceType, id, MemberResource)
+func (g *GTM) AddPoolMember(memberConfig *PoolMember, poolId, resourceType string) (*PoolMember, error) {
+	url := g.c.buildUrl(basePath, poolResource, resourceType, poolId, memberResource)
 	if err := memberConfig.Verify(); err != nil {
 		return nil, newError(400, "pool value verify fail: "+err.Error())
 	}
@@ -280,7 +284,7 @@ func (g *GTM) AddPoolMember(memberConfig *PoolMember, id, resourceType string) (
 	if err != nil {
 		return nil, newError(500, "CreatePool.Marshal fail: "+err.Error())
 	}
-	err = g.c.iControlRequest(HTTPPost, url, body, resp)
+	err = g.c.iControlRequest(httpPost, url, body, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -292,10 +296,10 @@ func (g *GTM) RemovePool(poolId, poolMemberId, resourceType string) (*PoolMember
 	if !strings.Contains(poolMemberId, ":") {
 		poolMemberId = poolMemberId + ":" + poolMemberId
 	}
-	url := g.c.buildUrl(basePath, PoolResource, resourceType, CommonId(poolId), MemberResource, CommonId(poolMemberId))
+	url := g.c.buildUrl(basePath, poolResource, resourceType, CommonId(poolId), memberResource, CommonId(poolMemberId))
 
 	resp := &PoolMember{}
-	err := g.c.iControlRequest(HTTPDelete, url, nil, resp)
+	err := g.c.iControlRequest(httpDelete, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}

@@ -50,11 +50,11 @@ type VirtualServer struct {
 
 // ServerList 서버 목록 응답
 func (g *GTM) ServerList() (*ServerList, error) {
-	url := g.c.buildUrl(basePath, ServerResource)
+	url := g.c.buildUrl(basePath, serverResource)
 	resp := &ServerList{
 		Items: make([]Server, 0),
 	}
-	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(httpGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -64,9 +64,9 @@ func (g *GTM) ServerList() (*ServerList, error) {
 
 // Server resource id로 서버 응답
 func (g *GTM) Server(id string) (*Server, error) {
-	url := g.c.buildUrl(basePath, ServerResource, CommonId(id))
+	url := g.c.buildUrl(basePath, serverResource, CommonId(id))
 	resp := &Server{}
-	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(httpGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -76,9 +76,9 @@ func (g *GTM) Server(id string) (*Server, error) {
 
 // ServerWithCustomId Common 이 아닌 별도 Partition 으로 resource id 서버 검색
 func (g *GTM) ServerWithCustomId(id string) (*Server, error) {
-	url := g.c.buildUrl(basePath, ServerResource, id)
+	url := g.c.buildUrl(basePath, serverResource, id)
 	resp := &Server{}
-	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(httpGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -88,9 +88,9 @@ func (g *GTM) ServerWithCustomId(id string) (*Server, error) {
 
 // VirtualServerList Virtual server 목록 응답
 func (g *GTM) VirtualServerList(id string) (*VirtualServer, error) {
-	url := g.c.buildUrl(basePath, ServerResource, CommonId(id), VirtualServerResource)
+	url := g.c.buildUrl(basePath, serverResource, CommonId(id), virtualServerResource)
 	resp := &VirtualServer{}
-	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(httpGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -100,9 +100,9 @@ func (g *GTM) VirtualServerList(id string) (*VirtualServer, error) {
 
 // VirtualServer Virtual server 응답
 func (g *GTM) VirtualServer(serverId, virtualServerId string) (*VirtualServer, error) {
-	url := g.c.buildUrl(basePath, ServerResource, CommonId(serverId), VirtualServerResource, virtualServerId)
+	url := g.c.buildUrl(basePath, serverResource, CommonId(serverId), virtualServerResource, virtualServerId)
 	resp := &VirtualServer{}
-	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(httpGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -112,9 +112,9 @@ func (g *GTM) VirtualServer(serverId, virtualServerId string) (*VirtualServer, e
 
 // VirtualServerListWithCustomId Common 이 아닌 별도 Partition 으로 resource id 가상 서버 검색
 func (g *GTM) VirtualServerListWithCustomId(id string) (*VirtualServer, error) {
-	url := g.c.buildUrl(basePath, ServerResource, id, VirtualServerResource)
+	url := g.c.buildUrl(basePath, serverResource, id, virtualServerResource)
 	resp := &VirtualServer{}
-	err := g.c.iControlRequest(HTTPGet, url, nil, resp)
+	err := g.c.iControlRequest(httpGet, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -187,7 +187,7 @@ func (r *Server) Verify() error {
 }
 
 func (g *GTM) CreateServer(serverConfig *Server) (*Server, error) {
-	url := g.c.buildUrl(basePath, ServerResource)
+	url := g.c.buildUrl(basePath, serverResource)
 	if err := serverConfig.Verify(); err != nil {
 		return nil, newError(400, "server value verify fail: "+err.Error())
 	}
@@ -197,7 +197,7 @@ func (g *GTM) CreateServer(serverConfig *Server) (*Server, error) {
 	if err != nil {
 		return nil, newError(500, "CreateServer.Marshal fail: "+err.Error())
 	}
-	err = g.c.iControlRequest(HTTPPost, url, body, resp)
+	err = g.c.iControlRequest(httpPost, url, body, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -206,9 +206,9 @@ func (g *GTM) CreateServer(serverConfig *Server) (*Server, error) {
 }
 
 func (g *GTM) DeleteServer(id string) (*Server, error) {
-	url := g.c.buildUrl(basePath, ServerResource, CommonId(id))
+	url := g.c.buildUrl(basePath, serverResource, CommonId(id))
 	resp := &Server{}
-	err := g.c.iControlRequest(HTTPDelete, url, nil, resp)
+	err := g.c.iControlRequest(httpDelete, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -248,7 +248,7 @@ func (r *VirtualServer) Verify() error {
 }
 
 func (g *GTM) AddVirtualServer(serverId string, virtualServerConfig *VirtualServer) (*VirtualServer, error) {
-	url := g.c.buildUrl(basePath, ServerResource, CommonId(serverId), VirtualServerResource)
+	url := g.c.buildUrl(basePath, serverResource, CommonId(serverId), virtualServerResource)
 	if err := virtualServerConfig.Verify(); err != nil {
 		return nil, newError(400, "virtualServer value verify fail: "+err.Error())
 	}
@@ -258,7 +258,7 @@ func (g *GTM) AddVirtualServer(serverId string, virtualServerConfig *VirtualServ
 	if err != nil {
 		return nil, newError(500, "CreateVirtualServer.Marshal fail: "+err.Error())
 	}
-	err = g.c.iControlRequest(HTTPPost, url, body, resp)
+	err = g.c.iControlRequest(httpPost, url, body, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -267,9 +267,9 @@ func (g *GTM) AddVirtualServer(serverId string, virtualServerConfig *VirtualServ
 }
 
 func (g *GTM) RemoveVirtualServer(serverId, virtualServerId string) (*VirtualServer, error) {
-	url := g.c.buildUrl(basePath, ServerResource, CommonId(serverId), VirtualServerResource, virtualServerId)
+	url := g.c.buildUrl(basePath, serverResource, CommonId(serverId), virtualServerResource, virtualServerId)
 	resp := &VirtualServer{}
-	err := g.c.iControlRequest(HTTPDelete, url, nil, resp)
+	err := g.c.iControlRequest(httpDelete, url, nil, resp)
 	if err != nil {
 		return nil, err
 	}

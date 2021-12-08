@@ -11,15 +11,17 @@ const (
 	basePath = "/mgmt/tm/gtm"
 
 	// Resource
-	WideIpResource        = "wideip"
-	MonitorResource       = "monitor"
-	PoolResource          = "pool"
-	MemberResource        = "members"
-	ServerResource        = "server"
-	TopologyResource      = "topology"
-	RegionResource        = "region"
-	DatacenterResource    = "datacenter"
-	VirtualServerResource = "virtual-servers"
+	wideIpResource        = "wideip"
+	monitorResource       = "monitor"
+	poolResource          = "pool"
+	memberResource        = "members"
+	serverResource        = "server"
+	topologyResource      = "topology"
+	regionResource        = "region"
+	datacenterResource    = "datacenter"
+	virtualServerResource = "virtual-servers"
+	aWideIpResource       = "pools"
+	cnameWideIpResource   = "pools-cname"
 
 	// RRType
 	AType     = "a"
@@ -40,10 +42,10 @@ const (
 	ReturnToDNS = "return-to-dns"
 
 	// API Method
-	HTTPGet    = "GET"
-	HTTPPost   = "POST"
-	HTTPPut    = "PUT"
-	HTTPDelete = "DELETE"
+	httpGet    = "GET"
+	httpPost   = "POST"
+	httpPut    = "PUT"
+	httpDelete = "DELETE"
 
 	// Server Product
 	ServerGenericHost = "generic-host"
