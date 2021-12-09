@@ -1,4 +1,4 @@
-package main
+package f5g
 
 const (
 	blank = " "

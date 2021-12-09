@@ -1,4 +1,4 @@
-package main
+package f5g
 
 type RegionList struct {
 	Kind  string   `json:"kind,omitempty"`
