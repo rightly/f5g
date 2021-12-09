@@ -1,4 +1,4 @@
-package bigip
+package main
 
 type GTM struct {
 	c *client

@@ -1,4 +1,4 @@
-package bigip
+package main
 
 type RegionList struct {
 	Kind  string   `json:"kind,omitempty"`

@@ -1,4 +1,4 @@
-package bigip
+package main
 
 import (
 	"encoding/json"
