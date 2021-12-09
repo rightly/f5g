@@ -12,6 +12,10 @@ F5 BIGIP Rest Client
 - Region
 
 ## Usage
+```go
+import "github.com/rightly/f5g"
+```
+
 ### GTM Client
 ```go
 // create client

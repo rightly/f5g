@@ -3,7 +3,7 @@ package bigip
 import (
 	"encoding/json"
 	"fmt"
-	"oss.navercorp.com/seunghwan.na/f5g/internal/pkg/chttp"
+	"github.com/rightly/f5g/internal/pkg/chttp"
 	"strings"
 	"time"
 )
