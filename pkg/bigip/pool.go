@@ -292,7 +292,7 @@ func (g *GTM) AddPoolMember(memberConfig *PoolMember, poolId, resourceType strin
 	return resp, nil
 }
 
-func (g *GTM) RemovePool(poolId, poolMemberId, resourceType string) (*PoolMember, error) {
+func (g *GTM) RemovePoolMember(poolId, poolMemberId, resourceType string) (*PoolMember, error) {
 	if !strings.Contains(poolMemberId, ":") {
 		poolMemberId = poolMemberId + ":" + poolMemberId
 	}
