@@ -103,7 +103,11 @@ func (c *client) iControlRequest(method, url string, body []byte, r interface{})
 	if err != nil {
 		errResp := newError(0, "")
 		_ = httpClient.UnmarshalJSON(errResp)
-		errResp.Message = "iControlRequest.Do fail: " + errResp.Message
+		if errResp.Message != "" {
+			errResp.Message = "iControlRequest.Do fail: " + errResp.Message
+			return errResp
+		}
+		errResp.Message = "iControlRequest.Do fail: " + err.Error()
 		return errResp
 	}
 	if len(httpClient.Body) > 0 {
