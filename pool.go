@@ -160,11 +160,11 @@ func (r *Pool) SetVerifyMemberAvailability(b bool) *Pool {
 func (r *Pool) SetMonitor(monitor ...string) *Pool {
 	fs := " and "
 	for i, v := range monitor {
-		if strings.Contains(v, "/") {
-			v = fmt.Sprintf("/Common/%s", v)
+		if !strings.Contains(v, "/") {
+			r.Monitor = fmt.Sprintf("/Common/%s", v)
 		}
 		if i < len(monitor)-1 {
-			r.Monitor += v + fs
+			r.Monitor += fs
 		}
 	}
 
