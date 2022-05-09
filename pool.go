@@ -36,6 +36,7 @@ type Pool struct {
 	QosVsCapacity            int    `json:"qosVsCapacity,omitempty"`
 	QosVsScore               int    `json:"qosVsScore,omitempty"`
 	TTL                      int    `json:"ttl,omitempty"`
+	Monitor                  string `json:"monitor,omitempty"`
 	VerifyMemberAvailability string `json:"verifyMemberAvailability,omitempty"`
 	MembersReference         struct {
 		Link            string `json:"link,omitempty"`
@@ -65,7 +66,6 @@ type PoolMember struct {
 	LimitMaxPps               int    `json:"limitMaxPps,omitempty"`
 	LimitMaxPpsStatus         string `json:"limitMaxPpsStatus,omitempty"`
 	MemberOrder               int    `json:"memberOrder,omitempty"`
-	Monitor                   string `json:"monitor,omitempty"`
 	Ratio                     int    `json:"ratio,omitempty"`
 }
 
@@ -165,7 +165,7 @@ func (r *Pool) SetMonitor(monitor ...string) *Pool {
 			v = fmt.Sprintf("/Common/%s", v)
 		}
 		if i < len(monitor)-1 {
-			r.Name += v + fs
+			r.Monitor += v + fs
 		}
 	}
 
