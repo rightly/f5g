@@ -158,9 +158,8 @@ func (r *Pool) SetVerifyMemberAvailability(b bool) *Pool {
 }
 
 func (r *Pool) SetMonitor(monitor ...string) *Pool {
-	i := 0
 	fs := " and "
-	for _, v := range monitor {
+	for i, v := range monitor {
 		if strings.Contains(v, "/") {
 			v = fmt.Sprintf("/Common/%s", v)
 		}
