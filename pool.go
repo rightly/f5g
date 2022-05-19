@@ -235,6 +235,25 @@ func (g *GTM) DeletePool(id, resourceType string) (*Pool, error) {
 	return resp, nil
 }
 
+func (g *GTM) ModifyPool(id, poolConfig *Pool, resourceType string) (*Pool, error) {
+	url := g.c.buildUrl(basePath, poolResource, resourceType)
+	if err := poolConfig.Verify(); err != nil {
+		return nil, newError(400, "pool value verify fail: "+err.Error())
+	}
+
+	resp := &Pool{}
+	body, err := json.Marshal(poolConfig)
+	if err != nil {
+		return nil, newError(500, "CreatePool.Marshal fail: "+err.Error())
+	}
+	err = g.c.iControlRequest(httpPut, url, body, resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
+}
+
 func NewPoolMemberConfig() *PoolMember {
 	return new(PoolMember)
 }
