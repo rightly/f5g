@@ -235,8 +235,8 @@ func (g *GTM) DeletePool(id, resourceType string) (*Pool, error) {
 	return resp, nil
 }
 
-func (g *GTM) ModifyPool(id, poolConfig *Pool, resourceType string) (*Pool, error) {
-	url := g.c.buildUrl(basePath, poolResource, resourceType)
+func (g *GTM) ModifyPool(id string, poolConfig *Pool, resourceType string) (*Pool, error) {
+	url := g.c.buildUrl(basePath, poolResource, resourceType, CommonId(id))
 	if err := poolConfig.Verify(); err != nil {
 		return nil, newError(400, "pool value verify fail: "+err.Error())
 	}
